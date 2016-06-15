@@ -9,7 +9,9 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "illuminate/database": "^5.2.0"
+    },
     "autoload": {
         "psr-4": {
             "Laratools\\": "src/"
