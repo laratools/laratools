@@ -2,7 +2,7 @@
 
 namespace Laratools\Eloquent;
 
-trait CanHaveMetaInfo
+trait HasMetaInfo
 {
     public function meta()
     {
