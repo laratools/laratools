@@ -11,8 +11,6 @@ trait SupportsISO8601Dates
         'Y-m-d\TH:i:sP',
         'Y-m-d\TH:i:s\Z',
         'Ymd\THis\Z',
-        'o-\WW',
-        'o-\WW-N',
         'Y-z',
 
         // Format denoted by the ES2015 specification http://www.ecma-international.org/ecma-262/6.0/#sec-date.prototype.toisostring
