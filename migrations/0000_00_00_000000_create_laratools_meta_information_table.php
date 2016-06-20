@@ -10,10 +10,11 @@ class CreateLaratoolsMetaInformationTable extends Migration
         Schema::create('meta_information', function(Blueprint $table)
         {
             $table->increments('id');
+            $table->timestamps();
             $table->morphs('owner');
             $table->string('key')->index();
             $table->string('value');
-            $table->boolean('is_encrypted');
+            $table->boolean('is_encrypted')->default(false);
         });
     }
 
