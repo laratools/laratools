@@ -2,6 +2,7 @@
 
 namespace Laratools\Eloquent;
 
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Model;
 
 class Meta extends Model
@@ -23,7 +24,9 @@ class Meta extends Model
     {
         if ($this->is_encrypted)
         {
-            return app('encrypter')->decrypt($value);
+            try {
+                $value = app('encrypter')->decrypt($value);
+            } catch(DecryptException $e) {}
         }
 
         return $value;
