@@ -1,88 +1,10 @@
 <?php
 
 use Laratools\Eloquent\DefaultOrderable;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class DefaultOrderableTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $db = new DB();
-
-        $db->addConnection([
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-        ]);
-
-        $db->bootEloquent();
-        $db->setAsGlobal();
-
-        $this->createSchema();
-    }
-
-    /**
-     * Setup database schema
-     *
-     * @return void
-     */
-    public function createSchema()
-    {
-        $this->schema()->create('posts', function (Blueprint $table)
-        {
-            $table->increments('id');
-            $table->timestamps();
-            $table->timestamp('published_at')->nullable();
-        });
-
-        $this->schema()->create('comments', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->timestamps();
-        });
-
-        $this->schema()->create('users', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->timestamps();
-            $table->string('name');
-            $table->date('dob');
-        });
-    }
-
-    /**
-     * Tear down the database schema.
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $this->schema()->drop('posts');
-        $this->schema()->drop('comments');
-        $this->schema()->drop('users');
-    }
-
-    /**
-     * Get a database connection instance.
-     *
-     * @return \Illuminate\Database\Connection
-     */
-    protected function connection()
-    {
-        return Eloquent::getConnectionResolver()->connection();
-    }
-
-    /**
-     * Get a schema builder instance.
-     *
-     * @return \Illuminate\Database\Schema\Builder
-     */
-    protected function schema()
-    {
-        return $this->connection()->getSchemaBuilder();
-    }
-
     public function test_default_orderable_sets_correct_order_by_clause()
     {
         $model = new OrderablePost();
