@@ -11,7 +11,9 @@
     "minimum-stability": "stable",
     "require": {
         "illuminate/database": "^5.2.0",
-        "illuminate/contracts": "^5.2.0"
+        "illuminate/contracts": "^5.2.0",
+        "ramsey/uuid": "^3.5",
+        "illuminate/events": "^5.2"
     },
     "autoload": {
         "psr-4": {
