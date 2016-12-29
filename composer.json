@@ -5,7 +5,9 @@
     "authors": [
         {
             "name": "Wade Urry",
-            "email": "wade@iwader.co.uk"
+            "email": "wade@iwader.co.uk",
+            "homepage": "https://iwader.co.uk/",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "stable",
