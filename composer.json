@@ -10,10 +10,10 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "illuminate/database": "^5.2.0",
         "illuminate/contracts": "^5.2.0",
-        "ramsey/uuid": "^3.5",
-        "illuminate/events": "^5.2"
+        "illuminate/database": "^5.2.0",
+        "illuminate/events": "^5.2",
+        "ramsey/uuid": "^3.5"
     },
     "autoload": {
         "psr-4": {
@@ -22,5 +22,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^5.4"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
