@@ -1,5 +1,8 @@
 <?php
 
+namespace Laratools\Eloquent;
+
+use PHPUnit_Framework_TestCase;
 use Laratools\Eloquent\Uuid;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Illuminate\Database\Schema\Blueprint;

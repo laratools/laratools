@@ -1,5 +1,8 @@
 <?php
 
+namespace Laratools\Eloquent;
+
+use PHPUnit_Framework_TestCase;
 use Laratools\Eloquent\HasMetaInfo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Capsule\Manager as DB;

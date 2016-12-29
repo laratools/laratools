@@ -1,5 +1,8 @@
 <?php
 
+namespace Laratools\Eloquent;
+
+use PHPUnit_Framework_TestCase;
 use Carbon\Carbon;
 use Laratools\Eloquent\SupportsISO8601Dates;
 use Illuminate\Database\Eloquent\Model as Eloquent;

@@ -1,5 +1,8 @@
 <?php
 
+namespace Laratools\Eloquent;
+
+use PHPUnit_Framework_TestCase;
 use Carbon\Carbon;
 use Laratools\Eloquent\Archivable;
 use Illuminate\Database\Schema\Blueprint;

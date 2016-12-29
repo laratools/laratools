@@ -1,5 +1,8 @@
 <?php
 
+namespace Laratools\Eloquent;
+
+use PHPUnit_Framework_TestCase;
 use Laratools\Eloquent\DefaultOrderable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 

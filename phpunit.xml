@@ -14,7 +14,7 @@
 >
     <testsuites>
         <testsuite name="laratools/laratools">
-            <directory suffix="Test.php">./tests/phpunit</directory>
+            <directory suffix=".php">tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
