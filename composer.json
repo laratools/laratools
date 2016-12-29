@@ -23,6 +23,11 @@
             "Laratools\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Laratools\\": "tests/"
+        }
+    },
     "config": {
         "sort-packages": true
     }
