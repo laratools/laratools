@@ -2,6 +2,7 @@
 
 namespace Laratools\Eloquent;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Support\Arr;
@@ -138,7 +139,7 @@ class EncryptableTest extends PHPUnit_Framework_TestCase
 
         EncryptableCustomer::setEncrypter($encrypter);
 
-        $this->connection()->insert("INSERT INTO `customers` ('secret') VALUES (?)", ['my unencrypted string']);
+        $this->connection()->insert("INSERT INTO `customers` ('secret', 'created_at', 'updated_at') VALUES (?, ?, ?)", ['my unencrypted string', Carbon::now(), Carbon::now()]);
 
         $customer = EncryptableCustomer::findOrFail(1);
 
@@ -158,7 +159,7 @@ class EncryptableTest extends PHPUnit_Framework_TestCase
 
         UnsafeEncryptableOrder::setEncrypter($encrypter);
 
-        $this->connection()->insert("INSERT INTO `orders` ('secret') VALUES (?)", ['my unencrypted string']);
+        $this->connection()->insert("INSERT INTO `orders` ('secret', 'created_at', 'updated_at') VALUES (?, ?, ?)", ['my unencrypted string', 'NOW()', 'NOW()']);
 
         $order = UnsafeEncryptableOrder::findOrFail(1);
 
