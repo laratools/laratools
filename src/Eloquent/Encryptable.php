@@ -92,7 +92,7 @@ trait Encryptable
             return $this->safelyDecrypt($value);
         }
 
-        return $this->encrypter()->decrypt($value);
+        return $this->getEncrypter()->decrypt($value);
     }
 
     /**
@@ -104,7 +104,7 @@ trait Encryptable
     protected function safelyDecrypt($value)
     {
         try {
-            return $this->encrypter()->decrypt($value);
+            return $this->getEncrypter()->decrypt($value);
         } catch(DecryptException $e) {}
 
         return $value;
@@ -118,7 +118,7 @@ trait Encryptable
      */
     public function encrypt($value)
     {
-        return $this->encrypter()->encrypt($value);
+        return $this->getEncrypter()->encrypt($value);
     }
 
     /**
@@ -126,7 +126,7 @@ trait Encryptable
      *
      * @return \Illuminate\Contracts\Encryption\Encrypter
      */
-    protected function encrypter()
+    protected function getEncrypter()
     {
         if (static::$encrypter instanceof Encrypter) return static::$encrypter;
 
