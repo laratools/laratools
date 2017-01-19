@@ -7,8 +7,7 @@ class CreateLaratoolsMetaInformationTable extends Migration
 {
     public function up()
     {
-        Schema::create('meta_information', function(Blueprint $table)
-        {
+        Schema::create('meta_information', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->morphs('owner');

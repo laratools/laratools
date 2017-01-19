@@ -22,11 +22,11 @@ class Meta extends Model
 
     public function getValueAttribute($value)
     {
-        if ($this->is_encrypted)
-        {
+        if ($this->is_encrypted) {
             try {
                 $value = app('encrypter')->decrypt($value);
-            } catch(DecryptException $e) {}
+            } catch (DecryptException $e) {
+            }
         }
 
         return $value;

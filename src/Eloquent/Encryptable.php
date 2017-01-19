@@ -13,7 +13,7 @@ trait Encryptable
      *
      * @var \Illuminate\Contracts\Encryption\Encrypter
      */
-    static $encrypter;
+    public static $encrypter;
 
     /**
      * Register the listener to the 'saving' event to encrypt the model's attributes
@@ -78,8 +78,7 @@ trait Encryptable
      */
     public function decrypt($value)
     {
-        if ($this->shouldSafelyDecrypt())
-        {
+        if ($this->shouldSafelyDecrypt()) {
             return $this->safelyDecrypt($value);
         }
 
@@ -96,7 +95,8 @@ trait Encryptable
     {
         try {
             return $this->getEncrypter()->decrypt($value);
-        } catch(DecryptException $e) {}
+        } catch (DecryptException $e) {
+        }
 
         return $value;
     }
@@ -119,7 +119,9 @@ trait Encryptable
      */
     protected function getEncrypter()
     {
-        if (static::$encrypter instanceof Encrypter) return static::$encrypter;
+        if (static::$encrypter instanceof Encrypter) {
+            return static::$encrypter;
+        }
 
         return app('encrypter');
     }

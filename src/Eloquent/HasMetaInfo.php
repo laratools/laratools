@@ -23,13 +23,11 @@ trait HasMetaInfo
 
     public function setMeta($key, $value)
     {
-        if (is_null($value))
-        {
+        if (is_null($value)) {
             return $this->deleteMeta($key);
         }
 
-        if ($this->shouldBeEncrypted($key))
-        {
+        if ($this->shouldBeEncrypted($key)) {
             $value = app('encrypter')->encrypt($value);
 
             $is_encrypted = true;

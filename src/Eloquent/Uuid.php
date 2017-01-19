@@ -9,7 +9,7 @@ trait Uuid
 {
     public static function bootUuid()
     {
-        static::creating(function(Model $model) {
+        static::creating(function (Model $model) {
             if (is_null($model->getAttribute($model->getUuidColumn()))) {
                 $model->setAttribute($model->getUuidColumn(), (string)$model->generateUuid());
             }

@@ -19,12 +19,10 @@ trait SupportsISO8601Dates
 
     protected function asDateTime($value)
     {
-        foreach($this->iso8601Dates as $format)
-        {
+        foreach ($this->iso8601Dates as $format) {
             $parsed = date_parse_from_format($format, $value);
 
-            if ($parsed['error_count'] === 0 && $parsed['warning_count'] === 0)
-            {
+            if ($parsed['error_count'] === 0 && $parsed['warning_count'] === 0) {
                 $value = Carbon::createFromFormat($format, $value);
 
                 break;
