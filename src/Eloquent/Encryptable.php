@@ -4,6 +4,7 @@ namespace Laratools\Eloquent;
 
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Database\Eloquent\Model;
 
 trait Encryptable
 {
@@ -13,6 +14,24 @@ trait Encryptable
      * @var \Illuminate\Contracts\Encryption\Encrypter
      */
     static $encrypter;
+
+    /**
+     * Register the listener to the 'saving' event to encrypt the model's attributes
+     *
+     * @return void
+     */
+    public static function bootEncryptable()
+    {
+        static::saving(function (Model $model) {
+            foreach ($model->getAttributes() as $attribute => $value) {
+                if ($model->isEncryptableAttribute($attribute)) {
+                    $value = $model->encrypt($value);
+
+                    $model->setAttribute($attribute, $value);
+                }
+            }
+        });
+    }
 
     /**
      * Get the array of attributes that should be encrypted/decrypted
@@ -50,35 +69,12 @@ trait Encryptable
     }
 
     /**
-     * Set a given attribute on the model.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return $this
-     */
-    public function setAttribute($key, $value)
-    {
-        // Let the parent handle things first so mutations can happen
-        parent::setAttribute($key, $value);
-
-        if ($this->isEncryptableAttribute($key))
-        {
-            // Get the raw value from the array as it may have been mutated
-            $value = $this->attributes[$key];
-
-            $this->attributes[$key] = $this->encrypt($value);
-        }
-
-        return $this;
-    }
-
-    /**
      * If the given attribute should be encrypted/decrypted.
      *
      * @param string $key
      * @return bool
      */
-    protected function isEncryptableAttribute($key)
+    public function isEncryptableAttribute($key)
     {
         return in_array($key, $this->getEncryptableAttributes());
     }
@@ -89,7 +85,7 @@ trait Encryptable
      * @param string $value
      * @return string
      */
-    protected function decrypt($value)
+    public function decrypt($value)
     {
         if ($this->shouldSafelyDecrypt())
         {
@@ -120,7 +116,7 @@ trait Encryptable
      * @param string $value
      * @return string
      */
-    protected function encrypt($value)
+    public function encrypt($value)
     {
         return $this->encrypter()->encrypt($value);
     }

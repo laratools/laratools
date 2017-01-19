@@ -93,23 +93,11 @@ class EncryptableTest extends PHPUnit_Framework_TestCase
                   ->with('super secret value')
                   ->andReturn('eyJpdiI6Im56UHp1OENQOVdvS2VHSnhGbDJGMWc9PSIsInZhbHVlIjoiZXFpendPWmxlNHJGeDBqSzBtalNCaFY3WG16RTYxeE12N2NKUUJMRzlsOD0iLCJtYWMiOiIyZmQxZDhhNzI1NWVlODgwNWQwMTQzN2I3MDJjNjgzOGRhZThmYjYwMTI4ZjM1NGUxYWQ4ZDE4NzZjNDE1MGI1In0=');
 
-        $encrypter->shouldReceive('decrypt')
-                  ->once()
-                  ->with('eyJpdiI6Im56UHp1OENQOVdvS2VHSnhGbDJGMWc9PSIsInZhbHVlIjoiZXFpendPWmxlNHJGeDBqSzBtalNCaFY3WG16RTYxeE12N2NKUUJMRzlsOD0iLCJtYWMiOiIyZmQxZDhhNzI1NWVlODgwNWQwMTQzN2I3MDJjNjgzOGRhZThmYjYwMTI4ZjM1NGUxYWQ4ZDE4NzZjNDE1MGI1In0=')
-                  ->andReturn('super secret value');
-
         EncryptableCustomer::setEncrypter($encrypter);
 
-        $customer = EncryptableCustomer::create([
+        EncryptableCustomer::create([
             'secret' => 'super secret value',
         ]);
-
-        $this->assertSame('super secret value', $customer->secret);
-        $this->assertNotSame('super secret value', Arr::get($customer->getAttributes(), 'secret', null));
-        $this->assertSame(
-            'eyJpdiI6Im56UHp1OENQOVdvS2VHSnhGbDJGMWc9PSIsInZhbHVlIjoiZXFpendPWmxlNHJGeDBqSzBtalNCaFY3WG16RTYxeE12N2NKUUJMRzlsOD0iLCJtYWMiOiIyZmQxZDhhNzI1NWVlODgwNWQwMTQzN2I3MDJjNjgzOGRhZThmYjYwMTI4ZjM1NGUxYWQ4ZDE4NzZjNDE1MGI1In0=',
-            Arr::get($customer->getAttributes(), 'secret', null)
-        );
     }
 
     public function test_it_does_not_encrypt_attributes_it_shouldnt()
