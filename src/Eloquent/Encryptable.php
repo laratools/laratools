@@ -42,16 +42,11 @@ trait Encryptable
      */
     protected function getAttributeFromArray($key)
     {
-        if (array_key_exists($key, $this->attributes)) {
-            $value = $this->attributes[$key];
-
-            if ($this->isEncryptableAttribute($key) && ! is_null($value) && trim($value) !== '')
-            {
-                $value = $this->decrypt($value);
-            }
-
-            return $value;
+        if ($this->isEncryptableAttribute($key)) {
+            return $this->decrypt(parent::getAttributeFromArray($key));
         }
+
+        return parent::getAttributeFromArray($key);
     }
 
     /**
