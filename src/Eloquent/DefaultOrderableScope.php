@@ -13,8 +13,7 @@ class DefaultOrderableScope implements Scope
         $table = $model->getTable();
         $columns = $model->getDefaultOrderableColumns() ?: [];
 
-        foreach($columns as $column => $order)
-        {
+        foreach ($columns as $column => $order) {
             $builder->orderBy("{$table}.{$column}", $order);
         }
     }
