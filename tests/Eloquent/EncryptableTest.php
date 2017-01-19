@@ -23,10 +23,18 @@ class EncryptableTest extends PHPUnit_Framework_TestCase
             'database' => ':memory:',
         ]);
 
+        Eloquent::setEventDispatcher(new \Illuminate\Events\Dispatcher());
+
         $db->bootEloquent();
         $db->setAsGlobal();
 
         $this->createSchema();
+
+        EncryptableCustomer::flushEventListeners();
+        EncryptableCustomer::boot();
+
+        UnsafeEncryptableOrder::flushEventListeners();
+        UnsafeEncryptableOrder::boot();
     }
 
     /**
@@ -153,6 +161,31 @@ class EncryptableTest extends PHPUnit_Framework_TestCase
 
         $order->secret;
     }
+
+    public function test_it_decodes_attributes_when_the_model_is_cast_to_an_array()
+    {
+        $encrypter = Mockery::mock(Encrypter::class);
+
+        $encrypter->shouldReceive('encrypt')
+            ->once()
+            ->with('super secret')
+            ->andReturn('eyJpdiI6Im56UHp1OENQOVdvS2VHSnhGbDJGMWc9PSIsInZhbHVlIjoiZXFpendPWmxlNHJGeDBqSzBtalNCaFY3WG16RTYxeE12N2NKUUJMRzlsOD0iLCJtYWMiOiIyZmQxZDhhNzI1NWVlODgwNWQwMTQzN2I3MDJjNjgzOGRhZThmYjYwMTI4ZjM1NGUxYWQ4ZDE4NzZjNDE1MGI1In0=');
+
+        $encrypter->shouldReceive('decrypt')
+            ->once()
+            ->with('eyJpdiI6Im56UHp1OENQOVdvS2VHSnhGbDJGMWc9PSIsInZhbHVlIjoiZXFpendPWmxlNHJGeDBqSzBtalNCaFY3WG16RTYxeE12N2NKUUJMRzlsOD0iLCJtYWMiOiIyZmQxZDhhNzI1NWVlODgwNWQwMTQzN2I3MDJjNjgzOGRhZThmYjYwMTI4ZjM1NGUxYWQ4ZDE4NzZjNDE1MGI1In0=')
+            ->andReturn('super secret');
+
+        EncryptableCustomer::setEncrypter($encrypter);
+
+        $customer = EncryptableCustomer::create([
+            'secret' => 'super secret',
+        ]);
+
+        $array = $customer->toArray();
+
+        $this->assertSame('super secret', Arr::get($array, 'secret', null));
+    }
 }
 
 /**
@@ -166,7 +199,9 @@ class EncryptableCustomer extends Eloquent
 
     protected $guarded = [];
 
-    protected $encryptable = ['secret'];
+    protected $casts = [
+        'secret' => 'encrypt',
+    ];
 }
 
 class UnsafeEncryptableOrder extends Eloquent
@@ -177,7 +212,9 @@ class UnsafeEncryptableOrder extends Eloquent
 
     protected $guarded = [];
 
-    protected $encryptable = ['secret'];
-
+    protected $casts = [
+        'secret' => 'encrypt',
+    ];
+    
     protected $safeDecrypt = false;
 }

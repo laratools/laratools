@@ -34,16 +34,6 @@ trait Encryptable
     }
 
     /**
-     * Get the array of attributes that should be encrypted/decrypted
-     *
-     * @return array
-     */
-    protected function getEncryptableAttributes()
-    {
-        return $this->encryptable ?: [];
-    }
-
-    /**
      * If the decryption should be safely attempted by using a try/catch
      *
      * @return bool
@@ -54,29 +44,30 @@ trait Encryptable
     }
 
     /**
-     * Overwrite Eloquent's function to decrypt the value before it's used elsewhere in the model
+     * Decrypts an encryptable value via. Eloquent's cast system
      *
-     * @param string $key
+     * @param $key
+     * @param $value
      * @return mixed
      */
-    protected function getAttributeFromArray($key)
+    protected function castAttribute($key, $value)
     {
-        if ($this->isEncryptableAttribute($key)) {
-            return $this->decrypt(parent::getAttributeFromArray($key));
+        switch ($this->getCastType($key)) {
+            case 'encrypt':
+                return $this->decrypt($value);
+            default:
+                return parent::castAttribute($key, $value);
         }
-
-        return parent::getAttributeFromArray($key);
     }
-
     /**
-     * If the given attribute should be encrypted/decrypted.
+     * Checks if the given attribute is encryptable
      *
-     * @param string $key
+     * @param $attribute
      * @return bool
      */
-    public function isEncryptableAttribute($key)
+    protected function isEncryptableAttribute($attribute)
     {
-        return in_array($key, $this->getEncryptableAttributes());
+        return $this->hasCast($attribute) && $this->getCastType($attribute) === 'encrypt';
     }
 
     /**
