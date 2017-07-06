@@ -34,5 +34,12 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laratools\\Providers\\LaratoolsServiceProvider"
+            ]
+        }
     }
 }
