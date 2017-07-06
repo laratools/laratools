@@ -13,6 +13,8 @@ Laratools is a collection of useful everyday tools for Laravel
 composer require laratools/laratools
 ```
 
+If you're using 5.4 and below you'll need to add the `Laratools\Providers\LaratoolsServiceProvider::class` to your `config/app.php` providers array.
+
 ## License
 
 MIT - See [LICENSE][license] file
