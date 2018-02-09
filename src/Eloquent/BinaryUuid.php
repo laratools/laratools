@@ -15,11 +15,11 @@ trait BinaryUuid
 
     public static function encodeUuid($uuid): string
     {
-        if ( ! UuidGenerator::isValid($uuid)) {
+        if (! UuidGenerator::isValid($uuid)) {
             return $uuid;
         }
 
-        if ( ! $uuid instanceof UuidGenerator) {
+        if (! $uuid instanceof UuidGenerator) {
             $uuid = UuidGenerator::fromString($uuid);
         }
 
