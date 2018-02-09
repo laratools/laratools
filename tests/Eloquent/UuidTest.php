@@ -62,6 +62,7 @@ class UuidTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->schema()->drop('invoices');
+        $this->schema()->drop('projects');
     }
 
     /**
