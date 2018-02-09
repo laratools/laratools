@@ -26,11 +26,11 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
 
         $this->createSchema();
 
-        UuidInvoice::flushEventListeners();
-        UuidInvoice::boot();
+        UuidOrder::flushEventListeners();
+        UuidOrder::boot();
 
-        RenamedUuidColumnProject::flushEventListeners();
-        RenamedUuidColumnProject::boot();
+        RenamedUuidColumnPayment::flushEventListeners();
+        RenamedUuidColumnPayment::boot();
     }
 
     /**
@@ -40,13 +40,13 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
      */
     public function createSchema()
     {
-        $this->schema()->create('invoices', function(Blueprint $table)
+        $this->schema()->create('orders', function(Blueprint $table)
         {
             $table->increments('id');
             $table->binary('uuid', 16);
         });
 
-        $this->schema()->create('projects', function(Blueprint $table)
+        $this->schema()->create('payments', function(Blueprint $table)
         {
             $table->increments('id');
             $table->binary('guid', 16);
@@ -60,7 +60,8 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->schema()->drop('invoices');
+        $this->schema()->drop('orders');
+        $this->schema()->drop('payments');
     }
 
     /**
@@ -85,7 +86,7 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
 
     public function test_it_should_automatically_generate_a_uuid_when_creating_a_model()
     {
-        $invoice = UuidInvoice::create();
+        $invoice = UuidOrder::create();
 
         $this->assertNotNull($invoice->uuid);
     }
@@ -94,7 +95,7 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
     {
         $uuid = UuidGenerator::uuid4();
 
-        $invoice = UuidInvoice::create(['uuid' => $uuid->getBytes()]);
+        $invoice = UuidOrder::create(['uuid' => $uuid->getBytes()]);
 
         $this->assertSame($uuid->getBytes(), $invoice->uuid);
         $this->assertSame($uuid->toString(), $invoice->uuid_text);
@@ -104,7 +105,7 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
     {
         $uuid = UuidGenerator::uuid4();
 
-        $invoice = UuidInvoice::create(['uuid_text' => $uuid->toString()]);
+        $invoice = UuidOrder::create(['uuid_text' => $uuid->toString()]);
 
         $this->assertSame($uuid->getBytes(), $invoice->uuid);
         $this->assertSame($uuid->toString(), $invoice->uuid_text);
@@ -112,14 +113,14 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
 
     public function test_it_should_detect_a_custom_column()
     {
-        $invoice = RenamedUuidColumnProject::create();
+        $invoice = RenamedUuidColumnPayment::create();
 
         $this->assertSame('guid', $invoice->getUuidColumn());
     }
 
     public function test_it_should_automatically_generate_a_uuid_when_creating_a_model_with_a_custom_column()
     {
-        $invoice = RenamedUuidColumnProject::create();
+        $invoice = RenamedUuidColumnPayment::create();
 
         $this->assertNotNull($invoice->guid);
     }
@@ -128,7 +129,7 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
     {
         $uuid = UuidGenerator::uuid4();
 
-        $invoice = RenamedUuidColumnProject::create(['guid' => $uuid->getBytes()]);
+        $invoice = RenamedUuidColumnPayment::create(['guid' => $uuid->getBytes()]);
 
         $this->assertSame($uuid->getBytes(), $invoice->guid);
         $this->assertSame($uuid->toString(), $invoice->uuid_text);
@@ -139,7 +140,7 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
     {
         $uuid = UuidGenerator::uuid4();
 
-        $invoice = RenamedUuidColumnProject::create(['guid_text' => $uuid->toString()]);
+        $invoice = RenamedUuidColumnPayment::create(['guid_text' => $uuid->toString()]);
 
         $this->assertSame($uuid->getBytes(), $invoice->guid);
         $this->assertSame($uuid->toString(), $invoice->guid_text);
@@ -149,18 +150,18 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
 /**
  * Models
  */
-class UuidInvoice extends Eloquent
+class UuidOrder extends Eloquent
 {
     use BinaryUuid;
 
     public $timestamps = false;
 
-    protected $table = 'invoices';
+    protected $table = 'orders';
 
     protected $guarded = [];
 }
 
-class RenamedUuidColumnProject extends Eloquent
+class RenamedUuidColumnPayment extends Eloquent
 {
     use BinaryUuid;
 
@@ -168,7 +169,7 @@ class RenamedUuidColumnProject extends Eloquent
 
     public $timestamps = false;
 
-    protected $table = 'projects';
+    protected $table = 'payments';
 
     protected $guarded = [];
 
