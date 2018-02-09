@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class UuidTest extends PHPUnit_Framework_TestCase
+class BinaryUuidTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
