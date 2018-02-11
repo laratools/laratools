@@ -12,9 +12,15 @@ trait BinaryUuid
         Uuid::scopeUuid as scopeUuidString;
     }
 
-    public function scopeUuid(Builder $query, string $uuid)
+    public function scopeUuid(Builder $query, $uuid)
     {
-        return $this->scopeUuidString($query, static::encodeUuid($uuid));
+        if (is_array($uuid)) {
+            $uuid = array_map(function ($param) {
+                return static::encodeUuid($param);
+            }, $uuid);
+        }
+
+        return $this->scopeUuidString($query, $uuid);
     }
 
     public function generateUuid()

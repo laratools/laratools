@@ -115,6 +115,22 @@ class UuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame($b->uuid_text, $invoice->uuid_text);
     }
 
+    public function test_it_should_fetch_multiple_models_using_the_uuid_scope()
+    {
+        $a = UuidInvoice::create();
+        $b = UuidInvoice::create();
+        $c = UuidInvoice::create();
+        $d = UuidInvoice::create();
+
+        $invoices = UuidInvoice::uuid([$b->uuid, $d->uuid])->get();
+
+        $this->assertSame(2, $invoices->count());
+
+        $this->assertSame($b->uuid, $invoices->get(0)->uuid);
+
+        $this->assertSame($d->uuid, $invoices->get(1)->uuid);
+    }
+
     public function test_it_should_detect_a_custom_column()
     {
         $invoice = RenamedUuidColumnProject::create();
@@ -149,6 +165,22 @@ class UuidTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(RenamedUuidColumnProject::class, $project);
         $this->assertSame($b->guid, $project->guid);
     }
+
+    public function test_it_should_fetch_multiple_models_using_the_uuid_scope_when_using_a_custom_column()
+    {
+        $a = RenamedUuidColumnProject::create();
+        $b = RenamedUuidColumnProject::create();
+        $c = RenamedUuidColumnProject::create();
+        $d = RenamedUuidColumnProject::create();
+
+        $projects = RenamedUuidColumnProject::guid([$b->guid, $d->guid])->get();
+
+        $this->assertSame(2, $projects->count());
+
+        $this->assertSame($b->guid, $projects->get(0)->guid);
+
+        $this->assertSame($d->guid, $projects->get(1)->guid);
+    }
 }
 
 /**
@@ -177,7 +209,7 @@ class RenamedUuidColumnProject extends Eloquent
 
     protected $guarded = [];
 
-    public function scopeGuid(Builder $query, string $uuid)
+    public function scopeGuid(Builder $query, $uuid)
     {
         return $this->scopeUuid($query, $uuid);
     }

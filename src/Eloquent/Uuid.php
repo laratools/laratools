@@ -17,8 +17,12 @@ trait Uuid
         });
     }
 
-    public function scopeUuid(Builder $query, string $uuid)
+    public function scopeUuid(Builder $query, $uuid)
     {
+        if (is_array($uuid)) {
+            return $query->whereIn($this->getUuidColumn(), $uuid);
+        }
+
         return $query->where($this->getUuidColumn(), $uuid);
     }
 

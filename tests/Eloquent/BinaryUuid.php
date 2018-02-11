@@ -124,6 +124,24 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame($b->uuid_text, $order->uuid_text);
     }
 
+    public function test_it_should_fetch_multiple_models_using_the_uuid_scope()
+    {
+        $a = UuidOrder::create();
+        $b = UuidOrder::create();
+        $c = UuidOrder::create();
+        $d = UuidOrder::create();
+
+        $orders = UuidOrder::uuid([$b->uuid, $d->uuid])->get();
+
+        $this->assertSame(2, $orders->count());
+
+        $this->assertSame($b->uuid, $orders->get(0)->uuid);
+        $this->assertSame($b->uuid_text, $orders->get(0)->uuid_text);
+
+        $this->assertSame($d->uuid, $orders->get(1)->uuid);
+        $this->assertSame($d->uuid_text, $orders->get(1)->uuid_text);
+    }
+
     public function test_it_should_detect_a_custom_column()
     {
         $invoice = RenamedUuidColumnPayment::create();
@@ -171,6 +189,24 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame($b->guid, $payment->guid);
         $this->assertSame($b->guid_text, $payment->guid_text);
     }
+
+    public function test_it_should_fetch_multiple_models_using_the_uuid_scope_when_using_a_custom_column()
+    {
+        $a = RenamedUuidColumnPayment::create();
+        $b = RenamedUuidColumnPayment::create();
+        $c = RenamedUuidColumnPayment::create();
+        $d = RenamedUuidColumnPayment::create();
+
+        $payments = RenamedUuidColumnPayment::guid([$b->guid, $d->guid])->get();
+
+        $this->assertSame(2, $payments->count());
+
+        $this->assertSame($b->guid, $payments->get(0)->guid);
+        $this->assertSame($b->guid_text, $payments->get(0)->guid_text);
+
+        $this->assertSame($d->guid, $payments->get(1)->guid);
+        $this->assertSame($d->guid_text, $payments->get(1)->guid_text);
+    }
 }
 
 /**
@@ -199,7 +235,7 @@ class RenamedUuidColumnPayment extends Eloquent
 
     protected $guarded = [];
 
-    public function scopeGuid($query, string $guid)
+    public function scopeGuid($query, $guid)
     {
         return $this->scopeUuid($query, $guid);
     }
