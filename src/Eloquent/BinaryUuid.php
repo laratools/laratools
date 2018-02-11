@@ -6,11 +6,13 @@ use Ramsey\Uuid\Uuid as UuidGenerator;
 
 trait BinaryUuid
 {
-    use Uuid;
+    use Uuid {
+        Uuid::generateUuid as generateUuidString;
+    }
 
     public function generateUuid()
     {
-        return UuidGenerator::uuid4();
+        return static::encodeUuid($this->generateUuidString());
     }
 
     public static function encodeUuid($uuid): string
