@@ -111,6 +111,19 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame($uuid->toString(), $invoice->uuid_text);
     }
 
+    public function test_it_should_fetch_a_model_using_the_uuid_scope()
+    {
+        $a = UuidOrder::create();
+        $b = UuidOrder::create();
+        $c = UuidOrder::create();
+
+        $order = UuidOrder::uuid($b->uuid)->first();
+
+        $this->assertInstanceOf(UuidOrder::class, $order);
+        $this->assertSame($b->uuid, $order->uuid);
+        $this->assertSame($b->uuid_text, $order->uuid_text);
+    }
+
     public function test_it_should_detect_a_custom_column()
     {
         $invoice = RenamedUuidColumnPayment::create();
@@ -145,6 +158,19 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame($uuid->getBytes(), $invoice->guid);
         $this->assertSame($uuid->toString(), $invoice->guid_text);
     }
+
+    public function test_it_should_fetch_a_model_using_the_uuid_scope_when_using_a_custom_column()
+    {
+        $a = RenamedUuidColumnPayment::create();
+        $b = RenamedUuidColumnPayment::create();
+        $c = RenamedUuidColumnPayment::create();
+
+        $payment = RenamedUuidColumnPayment::guid($b->guid)->first();
+
+        $this->assertInstanceOf(RenamedUuidColumnPayment::class, $payment);
+        $this->assertSame($b->guid, $payment->guid);
+        $this->assertSame($b->guid_text, $payment->guid_text);
+    }
 }
 
 /**
@@ -172,6 +198,11 @@ class RenamedUuidColumnPayment extends Eloquent
     protected $table = 'payments';
 
     protected $guarded = [];
+
+    public function scopeGuid($query, string $guid)
+    {
+        return $this->scopeUuid($query, $guid);
+    }
 
     public function getGuidTextAttribute(): string
     {

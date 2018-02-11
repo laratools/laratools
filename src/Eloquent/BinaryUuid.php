@@ -2,12 +2,19 @@
 
 namespace Laratools\Eloquent;
 
+use Illuminate\Database\Eloquent\Builder;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 
 trait BinaryUuid
 {
     use Uuid {
         Uuid::generateUuid as generateUuidString;
+        Uuid::scopeUuid as scopeUuidString;
+    }
+
+    public function scopeUuid(Builder $query, string $uuid)
+    {
+        return $this->scopeUuidString($query, static::encodeUuid($uuid));
     }
 
     public function generateUuid()

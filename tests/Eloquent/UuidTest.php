@@ -2,6 +2,7 @@
 
 namespace Laratools\Eloquent;
 
+use Illuminate\Database\Eloquent\Builder;
 use PHPUnit_Framework_TestCase;
 use Laratools\Eloquent\Uuid;
 use Ramsey\Uuid\Uuid as UuidGenerator;
@@ -101,6 +102,19 @@ class UuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame($uuid, $invoice->uuid);
     }
 
+    public function test_it_should_fetch_a_model_using_the_uuid_scope()
+    {
+        $a = UuidInvoice::create();
+        $b = UuidInvoice::create();
+        $c = UuidInvoice::create();
+
+        $invoice = UuidInvoice::uuid($b->uuid)->first();
+
+        $this->assertInstanceOf(UuidInvoice::class, $invoice);
+        $this->assertSame($b->uuid, $invoice->uuid);
+        $this->assertSame($b->uuid_text, $invoice->uuid_text);
+    }
+
     public function test_it_should_detect_a_custom_column()
     {
         $invoice = RenamedUuidColumnProject::create();
@@ -122,6 +136,18 @@ class UuidTest extends PHPUnit_Framework_TestCase
         $invoice = RenamedUuidColumnProject::create(['guid' => $uuid]);
 
         $this->assertSame($uuid, $invoice->guid);
+    }
+
+    public function test_it_should_fetch_a_model_using_the_uuid_scope_when_using_a_custom_column()
+    {
+        $a = RenamedUuidColumnProject::create();
+        $b = RenamedUuidColumnProject::create();
+        $c = RenamedUuidColumnProject::create();
+
+        $project = RenamedUuidColumnProject::guid($b->guid)->first();
+
+        $this->assertInstanceOf(RenamedUuidColumnProject::class, $project);
+        $this->assertSame($b->guid, $project->guid);
     }
 }
 
@@ -150,4 +176,9 @@ class RenamedUuidColumnProject extends Eloquent
     protected $table = 'projects';
 
     protected $guarded = [];
+
+    public function scopeGuid(Builder $query, string $uuid)
+    {
+        return $this->scopeUuid($query, $uuid);
+    }
 }

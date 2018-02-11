@@ -2,6 +2,7 @@
 
 namespace Laratools\Eloquent;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 
@@ -14,6 +15,11 @@ trait Uuid
                 $model->setAttribute($model->getUuidColumn(), (string)$model->generateUuid());
             }
         });
+    }
+
+    public function scopeUuid(Builder $query, string $uuid)
+    {
+        return $query->where($this->getUuidColumn(), $uuid);
     }
 
     public function getQualifiedUuidColumn()
