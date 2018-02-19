@@ -18,6 +18,8 @@ trait BinaryUuid
             $uuid = array_map(function ($param) {
                 return static::encodeUuid($param);
             }, $uuid);
+        } else {
+            $uuid = static::encodeUuid($uuid);
         }
 
         return $this->scopeUuidString($query, $uuid);
