@@ -20,10 +20,10 @@ trait Uuid
     public function scopeUuid(Builder $query, $uuid)
     {
         if (is_array($uuid)) {
-            return $query->whereIn($this->getUuidColumn(), $uuid);
+            return $query->whereIn($this->getQualifiedUuidColumn(), $uuid);
         }
 
-        return $query->where($this->getUuidColumn(), $uuid);
+        return $query->where($this->getQualifiedUuidColumn(), $uuid);
     }
 
     public function getQualifiedUuidColumn()
