@@ -50,8 +50,7 @@ class LaratoolsServiceProvider extends ServiceProvider
 
     protected function getEnhancedGrammarFromIlluminate(Grammar $original): Grammar
     {
-        switch(get_class($original))
-        {
+        switch (get_class($original)) {
             case IlluminateMySqlGrammar::class:
                 return new MySqlGrammar();
             case IlluminateSQLiteGrammar::class:
