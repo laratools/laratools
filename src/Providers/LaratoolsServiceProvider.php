@@ -7,8 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\ViewErrorBag;
 use Exception;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Grammars\Grammar;
+use Illuminate\Database\Schema\Grammars\Grammar as SchemaGrammar;
 use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Database\Schema\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
 use Laratools\Database\Schema\Grammar\MySqlGrammar;
@@ -81,9 +82,9 @@ class LaratoolsServiceProvider extends ServiceProvider
         $connection->setSchemaGrammar($this->makeGrammar($connection));
     }
 
-    protected function makeGrammar(Connection $connection): Grammar
+    protected function makeGrammar(Connection $connection): SchemaGrammar
     {
-        $original = $connection->getSchemaGrammar();
+        $original = $connection->getQueryGrammar();
         $enhanced = $this->getEnhancedGrammarFromIlluminate($original);
 
         $enhanced->setTablePrefix($original->getTablePrefix());
@@ -91,7 +92,7 @@ class LaratoolsServiceProvider extends ServiceProvider
         return $enhanced;
     }
 
-    protected function getEnhancedGrammarFromIlluminate(Grammar $original): Grammar
+    protected function getEnhancedGrammarFromIlluminate(QueryGrammar $original): SchemaGrammar
     {
         switch (get_class($original)) {
             case IlluminateMySqlGrammar::class:
