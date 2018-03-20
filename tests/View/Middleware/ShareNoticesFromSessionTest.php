@@ -21,7 +21,7 @@ class ShareNoticesFromSessionTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        (new LaratoolsServiceProvider(Mockery::mock(Application::class)))->register();
+        (new LaratoolsServiceProvider(Mockery::mock(Application::class)))->registerRedirectResponseMacros();
     }
 
     public function tearDown()

@@ -29,7 +29,7 @@ class LaratoolsServiceProvider extends ServiceProvider
         $this->registerBinaryUuid();
     }
 
-    protected function registerRedirectResponseMacros()
+    public function registerRedirectResponseMacros()
     {
         if (! RedirectResponse::hasMacro('withNotices')) {
             RedirectResponse::macro('withNotices', function ($provider, $key = 'default') {
