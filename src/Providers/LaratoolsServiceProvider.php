@@ -2,11 +2,13 @@
 
 namespace Laratools\Providers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ViewErrorBag;
 use Exception;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\Grammar;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Database\Schema\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
 use Laratools\Database\Schema\Grammar\MySqlGrammar;
@@ -23,7 +25,48 @@ class LaratoolsServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->registerRedirectResponseMacros();
         $this->registerBinaryUuid();
+    }
+
+    public function registerRedirectResponseMacros()
+    {
+        if (! RedirectResponse::hasMacro('withNotices')) {
+            RedirectResponse::macro('withNotices', function ($provider, $key = 'default') {
+                /** @var RedirectResponse $this */
+                $value = $this->parseErrors($provider);
+
+                $notices = $this->session->get('notices', new ViewErrorBag());
+
+                if (! $notices instanceof ViewErrorBag) {
+                    $notices = new ViewErrorBag();
+                }
+
+                $this->session->flash(
+                    'notices', $notices->put($key, $value)
+                );
+
+                return $this;
+            });
+        }
+
+        if (! RedirectResponse::hasMacro('withSuccesses')) {
+            RedirectResponse::macro('withSuccesses', function ($provider, $key = 'default') {
+                $value = $this->parseErrors($provider);
+
+                $successes = $this->session->get('successes', new ViewErrorBag());
+
+                if (! $successes instanceof ViewErrorBag) {
+                    $successes = new ViewErrorBag();
+                }
+
+                $this->session->flash(
+                    'successes', $successes->put($key, $value)
+                );
+
+                return $this;
+            });
+        }
     }
 
     protected function registerBinaryUuid()
