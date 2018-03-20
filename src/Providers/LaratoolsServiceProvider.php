@@ -8,10 +8,10 @@ use Illuminate\Support\ViewErrorBag;
 use Exception;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
+use Illuminate\Database\Query\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
+use Illuminate\Database\Query\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\Grammar as SchemaGrammar;
-use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
-use Illuminate\Database\Schema\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
 use Laratools\Database\Schema\Grammar\MySqlGrammar;
 use Laratools\Database\Schema\Grammar\SQLiteGrammar;
 
