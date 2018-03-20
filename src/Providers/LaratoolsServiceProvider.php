@@ -56,7 +56,7 @@ class LaratoolsServiceProvider extends ServiceProvider
 
                 $successes = $this->session->get('successes', new ViewErrorBag());
 
-                if ( ! $successes instanceof ViewErrorBag) {
+                if (! $successes instanceof ViewErrorBag) {
                     $successes = new ViewErrorBag();
                 }
 
