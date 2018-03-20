@@ -13,14 +13,14 @@
     "minimum-stability": "stable",
     "require": {
         "php": "~7.0",
-        "illuminate/contracts": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
-        "illuminate/database": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
-        "illuminate/events": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
-        "illuminate/http": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+        "illuminate/contracts": "~5.4.0|~5.5.0|~5.6.0",
+        "illuminate/database": "~5.4.0|~5.5.0|~5.6.0",
+        "illuminate/events": "~5.4.0|~5.5.0|~5.6.0",
+        "illuminate/http": "~5.4.0|~5.5.0|~5.6.0",
         "ramsey/uuid": "^3.6"
     },
     "require-dev": {
-        "illuminate/session": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+        "illuminate/session": "~5.4.0|~5.5.0|~5.6.0",
         "mockery/mockery": "^0.9.7",
         "phpunit/phpunit": "^5.4"
     },
