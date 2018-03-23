@@ -61,7 +61,9 @@ trait BinaryUuid
     {
         $uuid = $this->{$this->getUuidColumn()};
 
-        if (is_null($uuid)) return $uuid;
+        if (is_null($uuid)) {
+            return $uuid;
+        }
 
         return static::decodeUuid($uuid);
     }
