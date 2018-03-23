@@ -86,6 +86,16 @@ class UuidTest extends PHPUnit_Framework_TestCase
         return $this->connection()->getSchemaBuilder();
     }
 
+    public function test_it_should_serialize_when_no_uuid_has_been_set()
+    {
+        $invoice = new UuidInvoice();
+
+        $invoice->forceFill(['foo' => 'bar']);
+
+        $this->assertArraySubset(['foo' => 'bar'], $invoice->toArray());
+        $this->assertSame('{"foo":"bar"}', $invoice->toJson());
+    }
+
     public function test_it_should_automatically_generate_a_uuid_when_creating_a_model()
     {
         $invoice = UuidInvoice::create();
@@ -129,6 +139,16 @@ class UuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame($b->uuid, $invoices->get(0)->uuid);
 
         $this->assertSame($d->uuid, $invoices->get(1)->uuid);
+    }
+
+    public function test_it_should_serialize_when_no_uuid_has_been_set_with_a_custom_column()
+    {
+        $project = new RenamedUuidColumnProject();
+
+        $project->forceFill(['foo' => 'bar']);
+
+        $this->assertArraySubset(['foo' => 'bar'], $project->toArray());
+        $this->assertSame('{"foo":"bar"}', $project->toJson());
     }
 
     public function test_it_should_detect_a_custom_column()
