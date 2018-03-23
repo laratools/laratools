@@ -40,4 +40,9 @@ trait Uuid
     {
         return UuidGenerator::uuid4();
     }
+
+    public function toArray()
+    {
+        return array_merge(parent::toArray(), [$this->getUuidColumn() => $this->{$this->getUuidColumn()}]);
+    }
 }
