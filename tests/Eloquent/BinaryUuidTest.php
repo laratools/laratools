@@ -94,6 +94,14 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame('{"foo":"bar","uuid":null}', $order->toJson());
     }
 
+    public function test_it_should_serialize()
+    {
+        $order = UuidOrder::create();
+
+        $this->assertSame(['uuid' => $order->uuid_text, 'id' => $order->id], $order->toArray());
+        $this->assertSame('{"uuid":"' . $order->uuid_text . '","id":' . $order->id . '}', $order->toJson());
+    }
+
     public function test_it_should_automatically_generate_a_uuid_when_creating_a_model()
     {
         $invoice = UuidOrder::create();
@@ -160,6 +168,14 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(['foo' => 'bar', 'guid' => null], $payment->toArray());
         $this->assertSame('{"foo":"bar","guid":null}', $payment->toJson());
+    }
+
+    public function test_it_should_serialize_with_a_custom_column()
+    {
+        $payment = RenamedUuidColumnPayment::create();
+
+        $this->assertSame(['guid' => $payment->guid_text, 'id' => $payment->id], $payment->toArray());
+        $this->assertSame('{"guid":"' . $payment->guid_text . '","id":' . $payment->id . '}', $payment->toJson());
     }
 
     public function test_it_should_detect_a_custom_column()
