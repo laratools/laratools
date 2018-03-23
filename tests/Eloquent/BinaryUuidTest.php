@@ -90,7 +90,7 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
 
         $order->forceFill(['foo' => 'bar']);
 
-        $this->assertArraySubset(['foo' => 'bar', 'uuid' => null], $order->toArray());
+        $this->assertSame(['foo' => 'bar', 'uuid' => null], $order->toArray());
         $this->assertSame('{"foo":"bar","uuid":null}', $order->toJson());
     }
 
@@ -158,7 +158,7 @@ class BinaryUuidTest extends PHPUnit_Framework_TestCase
 
         $payment->forceFill(['foo' => 'bar']);
 
-        $this->assertArraySubset(['foo' => 'bar', 'guid' => null], $payment->toArray());
+        $this->assertSame(['foo' => 'bar', 'guid' => null], $payment->toArray());
         $this->assertSame('{"foo":"bar","guid":null}', $payment->toJson());
     }
 
