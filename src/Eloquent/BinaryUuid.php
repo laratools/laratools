@@ -30,7 +30,7 @@ trait BinaryUuid
         return static::encodeUuid($this->generateUuidString());
     }
 
-    public static function encodeUuid($uuid): string
+    public static function encodeUuid(string $uuid): string
     {
         if (! UuidGenerator::isValid($uuid)) {
             return $uuid;
@@ -57,9 +57,13 @@ trait BinaryUuid
         return array_merge(parent::toArray(), [$this->getUuidColumn() => $this->uuid_text]);
     }
 
-    public function getUuidTextAttribute(): string
+    public function getUuidTextAttribute()
     {
-        return static::decodeUuid($this->{$this->getUuidColumn()});
+        $uuid = $this->{$this->getUuidColumn()};
+
+        if (is_null($uuid)) return $uuid;
+
+        return static::decodeUuid($uuid);
     }
 
     public function setUuidTextAttribute(string $uuid)
