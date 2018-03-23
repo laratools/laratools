@@ -96,6 +96,14 @@ class UuidTest extends PHPUnit_Framework_TestCase
         $this->assertSame('{"foo":"bar","uuid":null}', $invoice->toJson());
     }
 
+    public function test_it_should_serialize()
+    {
+        $invoice = UuidInvoice::create();
+
+        $this->assertSame(['uuid' => $invoice->uuid, 'id' => $invoice->id], $invoice->toArray());
+        $this->assertSame('{"uuid":"' . $invoice->uuid . '","id":' . $invoice->id . '}', $invoice->toJson());
+    }
+
     public function test_it_should_automatically_generate_a_uuid_when_creating_a_model()
     {
         $invoice = UuidInvoice::create();
@@ -149,6 +157,14 @@ class UuidTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(['foo' => 'bar', 'guid' => null], $project->toArray());
         $this->assertSame('{"foo":"bar","guid":null}', $project->toJson());
+    }
+
+    public function test_it_should_serialize_with_a_custom_column()
+    {
+        $project = RenamedUuidColumnProject::create();
+
+        $this->assertSame(['guid' => $project->guid, 'id' => $project->id], $project->toArray());
+        $this->assertSame('{"guid":"' . $project->guid . '","id":' . $project->id . '}', $project->toJson());
     }
 
     public function test_it_should_detect_a_custom_column()
