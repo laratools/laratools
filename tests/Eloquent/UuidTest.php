@@ -92,8 +92,8 @@ class UuidTest extends PHPUnit_Framework_TestCase
 
         $invoice->forceFill(['foo' => 'bar']);
 
-        $this->assertArraySubset(['foo' => 'bar'], $invoice->toArray());
-        $this->assertSame('{"foo":"bar"}', $invoice->toJson());
+        $this->assertSame(['foo' => 'bar', 'uuid' => null], $invoice->toArray());
+        $this->assertSame('{"foo":"bar","uuid":null}', $invoice->toJson());
     }
 
     public function test_it_should_automatically_generate_a_uuid_when_creating_a_model()
@@ -147,8 +147,8 @@ class UuidTest extends PHPUnit_Framework_TestCase
 
         $project->forceFill(['foo' => 'bar']);
 
-        $this->assertArraySubset(['foo' => 'bar'], $project->toArray());
-        $this->assertSame('{"foo":"bar"}', $project->toJson());
+        $this->assertSame(['foo' => 'bar', 'guid' => null], $project->toArray());
+        $this->assertSame('{"foo":"bar","guid":null}', $project->toJson());
     }
 
     public function test_it_should_detect_a_custom_column()
