@@ -7,14 +7,14 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Support\Arr;
 use Mockery;
-use PHPUnit_Framework_TestCase;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use PHPUnit\Framework\TestCase;
 
-class EncryptableTest extends PHPUnit_Framework_TestCase
+class EncryptableTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $db = new DB();
 
@@ -66,7 +66,7 @@ class EncryptableTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->schema()->drop('customers');
         $this->schema()->drop('orders');
@@ -215,6 +215,6 @@ class UnsafeEncryptableOrder extends Eloquent
     protected $casts = [
         'secret' => 'encrypt',
     ];
-    
+
     protected $safeDecrypt = false;
 }

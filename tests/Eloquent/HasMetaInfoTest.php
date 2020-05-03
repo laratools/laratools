@@ -2,15 +2,15 @@
 
 namespace Laratools\Eloquent;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Laratools\Eloquent\HasMetaInfo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class HasMetaInfoTest extends PHPUnit_Framework_TestCase
+class HasMetaInfoTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $db = new DB();
 
@@ -55,7 +55,7 @@ class HasMetaInfoTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->schema()->drop('posts');
         $this->schema()->drop('meta_information');
@@ -150,8 +150,8 @@ class HasMetaInfoTest extends PHPUnit_Framework_TestCase
 class MetaPost extends Eloquent
 {
     use HasMetaInfo;
-    
+
     protected $table = 'posts';
-    
+
     protected $guarded = [];
 }

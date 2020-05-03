@@ -2,15 +2,15 @@
 
 namespace Laratools\Eloquent;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Laratools\Eloquent\Searchable;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class SearchableTest extends PHPUnit_Framework_TestCase
+class SearchableTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $db = new DB();
 
@@ -53,7 +53,7 @@ class SearchableTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->schema()->drop('posts');
         $this->schema()->drop('comments');

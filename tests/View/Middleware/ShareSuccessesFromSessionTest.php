@@ -12,19 +12,19 @@ use Illuminate\Support\ViewErrorBag;
 use Laratools\Providers\LaratoolsServiceProvider;
 use Illuminate\Session\Store as SessionStore;
 use Mockery;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class ShareSuccessesFromSessionTest extends PHPUnit_Framework_TestCase
+class ShareSuccessesFromSessionTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         (new LaratoolsServiceProvider(Mockery::mock(Application::class)))->registerRedirectResponseMacros();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Mockery::close();
 

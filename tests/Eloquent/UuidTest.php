@@ -3,16 +3,16 @@
 namespace Laratools\Eloquent;
 
 use Illuminate\Database\Eloquent\Builder;
-use PHPUnit_Framework_TestCase;
 use Laratools\Eloquent\Uuid;
+use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class UuidTest extends PHPUnit_Framework_TestCase
+class UuidTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $db = new DB();
 
@@ -60,7 +60,7 @@ class UuidTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->schema()->drop('invoices');
         $this->schema()->drop('projects');
