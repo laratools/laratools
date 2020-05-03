@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+* Support for Illuminate 6 and 7
+
+### Changed
+
+* Dropped support for Illuminate 5.*
+* Dropped support for PHP 7.1 and below
+
 ## [v3.0.0]
 
 ### Added
