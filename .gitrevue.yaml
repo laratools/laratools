@@ -5,7 +5,3 @@ require_assignee:
 
 require_file_modified:
     - CHANGELOG.md
-
-paired_files:
-    composer.json:
-        - composer.lock
