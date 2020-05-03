@@ -2,11 +2,11 @@
 
 namespace Laratools\Eloquent;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Laratools\Eloquent\DefaultOrderable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class DefaultOrderableTest extends PHPUnit_Framework_TestCase
+class DefaultOrderableTest extends TestCase
 {
     public function test_default_orderable_sets_correct_order_by_clause()
     {
