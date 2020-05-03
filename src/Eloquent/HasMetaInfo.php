@@ -27,6 +27,8 @@ trait HasMetaInfo
             return $this->deleteMeta($key);
         }
 
+        $is_encrypted = false;
+
         if ($this->shouldBeEncrypted($key)) {
             $value = app('encrypter')->encrypt($value);
 
